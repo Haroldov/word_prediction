@@ -1,15 +1,31 @@
 #!/usr/bin/env python3
-from __future__ import print_function
-import IPython
-import sys
 import numpy as np
-from keras.models import load_model, Model
-from keras.layers import Dense, Activation, Dropout, Input, LSTM, Reshape, Lambda, RepeatVector
-from keras.initializers import glorot_uniform
-from keras.utils import to_categorical
-from keras.optimizers import Adam
-from keras import backend as K
+from utils import *
+import random
 
-reshapor = Reshape((1, 78))
-LSTM_cell = LSTM(n_a, return_state = True)
-densor = Dense(n_values, activation='softmax')
+with open('input_text.txt') as f:
+    txt = f.read()
+txt = txt.replace("'s", '').replace("'", '')
+sentences = txt.split('. ')
+formattedSentences = []
+words = []
+for sentence in sentences[:-1]:
+    tmpSen = sentence.replace(',', '').replace('.', '')
+    formattedSentences.append(tmpSen.split(' '))
+    words += sentence.replace(',', '').replace('.', '').split(" ")
+formattedSentences.append(sentences[-1].replace('\n', '').replace('.', '').split(" "))
+words += sentences[-1].replace('\n', '').replace(',', '').replace('.', '').split(" ")
+words += ['\n']
+words = list(set(words))
+wrd2ix = {wrd:i for i, wrd in enumerate(sorted(words))}
+ix2wrd = {i:wrd for i, wrd in enumerate(sorted(words))}
+
+parameters = model(formattedSentences, ix2wrd, wrd2ix,
+                   dino_names=1, vocab_size=len(words))
+while True:
+    string = input("Enter a sentence: ")
+    string = string.replace('\n', '').replace('.', '').split(" ")
+    print()
+    print(" ".join(string), end=" ")
+    infer(string, parameters, wrd2ix, ix2wrd)
+    print()

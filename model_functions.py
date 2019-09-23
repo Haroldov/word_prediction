@@ -57,9 +57,9 @@ def word_inference_model(LSTM_cell, densor, n_values = 78, n_a = 64, Ty = 100):
     return inference_model
 
 def predict_and_sample(inference_model,
-                       x_initializer = x_initializer,
-                       a_initializer = a_initializer,
-                       c_initializer = c_initializer):
+                       x_initializer,
+                       a_initializer,
+                       c_initializer):
     """
     Predicts the next value of values using the inference model.
     Arguments:
