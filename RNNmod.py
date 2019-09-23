@@ -185,7 +185,7 @@ def optimize(X, Y, a_prev, parameters, learning_rate = 0.01):
     parameters = update_parameters(parameters, gradients, learning_rate)
     return loss, gradients, a[len(X)-1]
 
-def model(data, ix_to_char, char_to_ix, dino_names, vocab_size, num_iterations = 35000, n_a = 40):
+def model(data, ix_to_char, char_to_ix, dino_names, vocab_size, num_iterations = 35000, n_a = 20):
     """
     Trains the model and generates dinosaur names.
 
@@ -227,7 +227,7 @@ def model(data, ix_to_char, char_to_ix, dino_names, vocab_size, num_iterations =
 def infer(string, parameters, wrd2ix, ix2wrd):
     X = [None] + [wrd2ix[word] for word in string]
     Y = X[1:] + [wrd2ix["\n"]]
-    n_a = 40
+    n_a = 20
     seed = 0
     a_prev = np.zeros((n_a, 1))
     loss, cache = rnn_forward(X, Y, a_prev, parameters, parameters["Wax"].shape[1])

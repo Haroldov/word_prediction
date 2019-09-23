@@ -5,7 +5,6 @@ import random
 
 with open('input_text.txt', 'r', encoding="utf-8") as f:
     txt = f.read()
-print(type(txt))
 txt = txt.replace("'s", '').replace("'", '')
 sentences = txt.split('. ')
 formattedSentences = []
@@ -21,8 +20,6 @@ words = list(set(words))
 wrd2ix = {wrd:i for i, wrd in enumerate(sorted(words))}
 ix2wrd = {i:wrd for i, wrd in enumerate(sorted(words))}
 
-for s in formattedSentences:
-    print(s)
 parameters = model(formattedSentences, ix2wrd, wrd2ix,
                    dino_names=1, vocab_size=len(words))
 while True:
